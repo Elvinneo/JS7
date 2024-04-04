@@ -8,33 +8,35 @@ const options = {
 
 let movie='https://api.themoviedb.org/3/account/21183411/favorite/movies?language=en-US&page=1&sort_by=created_at.asc'
 let tv='https://api.themoviedb.org/3/account/21183411/favorite/tv?language=en-US&page=1&sort_by=created_at.asc'
-
-link=""
-
-let res=prompt("seçim edin .Filmler üçün 'movie', Tv üçün 'tv'")
+let link=""
 let secim1=''
 let secim2=''
+let res=prompt("seçim edin .Filmler üçün 'movie', Tv üçün 'tv'")
+let yoxla=0
 
 if (res=="movie"){
+  yoxla=1
   link=movie
   console.log(`%cMy favourite movies is:`,`color:red`)
-  fetch(link, options)
-  .then((response) =>response.json()
-  .then((movies) =>movies.results.map((movie) =>console.log(`Name:${movie.title}  Year: ${movie.release_date} `))))
-  .catch(err => console.error(err));
-
+  secim1='title'
+  secim2='release_date'
 
 }
 else if(res=="tv"){
+  yoxla=1
   link=tv
   console.log(`%cMy favourite TV programs is:`,`color:red`)
+  secim1='name'
+  secim2='first_air_date'
+}
+else{
+  console.log('Seçim düzgün edilməyib !!!')
+}
+if(yoxla){
   fetch(link, options)
   .then((response) =>response.json()
-  .then((movies) =>movies.results.map((tv) =>console.log(`Name:${tv.name}  Year: ${tv.first_air_date} `))))
-  .catch(err => console.error(err));
+  .then((movies) =>movies.results.map((movie) =>console.log(`Name:${movie[secim1]}  Year: ${movie[secim2]} `))))
 }
-
-
 
 
 
